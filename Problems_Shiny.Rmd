@@ -1,0 +1,1159 @@
+---
+title: "Shiny Exercises"
+subtitle: "![QHELP](`r params$icon_qhelp_b64`){width=30} Portugal 2023"
+author:
+- name: Julian Mollenhauer
+  affiliation: Universität Tübingen
+#date: "last mod.: `r format(Sys.time(), '%d. %B %Y')`"
+output:
+  html_document:
+    theme: default  # default united darkly
+    highlight: pygments
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    smooth_scroll: no
+    #code_folding: show
+# bibliography: ./Additional_Files/refs.bib
+link-citations: yes
+#csl: ./Additional_Files/apa.csl
+#runtime: shiny #_prerendered
+params:
+  icon_qhelp_b64: "data:image/webp;base64,UklGRkYEAABXRUJQVlA4WAoAAAAQAAAAMQAALQAAQUxQSNsDAAABoIZt29lIu5N6dzr9Zgdr27Zt27Zt27Zt27bt3fF0PLOqc/9Iu5vOp78RMQFQOtPtYWqk7HIR5Ks6KUkcYqX8XIkUk+08ycP7HaR0uGSK0A3/TsZ2F5BrfRIpnastekts9Ia0rg+A3DjonpPS637+3hBq3JJo2Z4DnoWsk27aad1RX6+Qut4ticGzMwj4fSFN243PfsVtaOD3Z8Zur6S4vQ1VUFQ0VB654dzavhV8fyff7PiP2xvqBXgxqGq36dvWtRDcGFvtPD4qr1qAF4MG37OHHejqrwIAofjEq8tG9WueT4QX28XeW1haK8C9mLP5rBMvf0j2l9UU0+lq+qvxp6LGp9q0UydQXKHu06G0qNbFCMr0e6UYUNQGZetbVMq1CFeoCA3K9XytUDmXTrlO4Qq1NQvKVXUZAKiDcmb3F2W++UqVzKlDv3NQ3t+RQay4NTjh27f4F0P8i26L/mEJf3kpe/XmXsB2Y5m9K8f1GzznXLgr+of5xqzy/iaTRhC8oYVHMU2NkcX81fgfnaVsWhHA2nFVPRkyFjBAkKl8THoPhvZH9jY3uuntiOgKiN8ZLFNlab33TfSvQKxvagra9Pjjlzf7KmsBmE65KLmeFJVNJmsBRonHAHW547EkpWghwOHaoo+k3HY8PVQHKW2v+56xBQEsphQIZCOnIN2+n9HPNg+qX7EYGpGDMXhDizoz37v42r+BxNMaFLbxpghsZIIAFCebFHnwoGlmNdxOpJQPgQkvesA43MrlBymVAXCcUklgH+8BqELmKJBlel543MwEFSqR4wHMofkTv4oA+pFjgDPcZEyXewidhYGzlWDI2Up2ldeAemQ3ACX5I1I6AgCFybVQ3+XXV7EOJ4NLAG8bd3vw67nsC5cCNckGALryyM3ZgTK9izuzHLCS9tBls3kAUP0Kp+P7UQDid/YBSpElkapmVEy+L2rIRSvX1DRTOlDHiE6cBaEbo1bWK5wOgMHJmkAGctCiy6Hb88Ge1Y1J4kjkSIwUAHRkb+R6zvxw/xeZDdBYvqXLkSUVAEtXALn7taerEBBxCQBasyqw1KWXGUwIpEMD4OlnuP94V4fUj6VEnheAqHmy+lI64IoZgLHfw7UIYpwAYGWwh+0816jDD5J1AJjbyIomixDi3unSjf1MHoQfvwJAY4vGXcFvlNsYXAwIzi7T3wY0VtuDX3TGbqwOg/OdTBdawB2K7/tkfjKr1Iaf5jJYCrfFAZySXJZjTX0ACLFfZWhd24PnDC0bQ+1O7telXWa4P2PzBaApP0D1J95sx105i017MceElCvMSnB8XJIVHgEAVlA4IEQAAAAQBACdASoyAC4AP/3+/3+/vTeyN/xoA/A/iWIAAQkVq6YChWv1OVqfAAD+5rd4+n+yd9dcJoO89kJ9uvSd3KzcdwAAAA=="
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = FALSE,
+                      fig.align = "center",
+                      fig.width = 6, 
+                      fig.height = 6)
+options(width = 55)
+# install.packages('gifski')
+#library(gifski)        # gif animation
+# install.packages('xaringanExtra')
+#library(xaringanExtra) # copy button
+
+
+include_solutions <- TRUE
+eval_solutions <- FALSE
+
+```
+
+
+```{css, echo=FALSE}
+
+/*https://stackoverflow.com/questions/51020181/r-markdown-hide-spoiler-text-hover-over-text-element*/
+.hint {
+  /*display: none;*/
+  visibility: hidden; 
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  background-color: #d1e7e9;
+  text-align: right;
+  width: 75%;
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px;
+  text-align: left;
+  padding: 10px;
+  
+  max-height: 0;
+}
+
+.hint::before {
+  /* display: block;*/
+  visibility: visible;
+  content: "Hint";
+  border-radius: 4px;
+  color: black;
+  background-color: #d1e7e9;
+  padding: 2px;
+  
+}
+.hint:hover {
+  /*display: inline;*/
+  visibility: visible;
+  max-height: unset;
+}
+
+```
+
+
+```{css, echo=FALSE}
+
+.hide_toc{
+ display: none !important;
+}
+
+#toc_toggle_div_background{
+ background-color: white;
+       border: 1px solid #ccc;
+    border-radius: 6px;
+     position:fixed;
+  top:0;
+  left: calc(max(50%, 600px) - 600px);
+  width: 40px;
+  height: 40px;
+  margin: 15px 0px 0px 15px;
+  z-index: 900;
+  display: none;
+}
+
+#toc_toggle_div{
+  position:fixed;
+  top:0;
+  left: calc(max(50%, 600px) - 600px);
+  margin: 5px 0px 0px 5px;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  display: none;
+}
+
+@media (min-width: 768px){
+ #toc_toggle_div{ 
+   display: flex;
+ }
+ #toc_toggle_div_background{ 
+   display: block;
+ }
+}
+
+.ham {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 400ms;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.hamRotate.active_ham {
+  transform: rotate(45deg);
+}
+.hamRotate180.active_ham {
+  transform: rotate(180deg);
+}
+.line {
+  fill:none;
+  transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+  stroke:#000;
+  stroke-width:5.5;
+  stroke-linecap:round;
+}
+.ham1 .top {
+  stroke-dasharray: 40 139;
+}
+.ham1 .bottom {
+  stroke-dasharray: 40 180;
+}
+.ham1.active_ham .top {
+  stroke-dashoffset: -98px;
+}
+.ham1.active_ham .bottom {
+  stroke-dashoffset: -138px;
+}
+
+#section-TOC{
+ margin-top: 65px !important;
+}
+
+
+
+.custom-app-div{
+    border-radius: 10px;
+    border-style: dotted;
+    border-color: lightgrey;
+    padding: 10px;
+    border-width: 1.5px;
+    
+    margin-top: 25px;
+    margin-bottom: 25px;
+    
+}
+
+.custom-app-div:hover {
+  border-color: grey;
+  
+}
+
+
+.cols {
+  display: flex; 
+}
+
+.col_example {
+  min-width: 300px;
+}
+
+.col_spacer {
+  min-width: 30px;
+  background: linear-gradient( #808080, #BEBEBE) no-repeat center/2px 100%;
+}
+
+.col_code .code-folding-btn {
+  display: none;
+}
+
+
+.custom-sourceCode-div {
+  display: none;
+  padding-inline-start: 40px;
+}
+
+.show_sourceCode{
+  display: block;
+}
+
+.btn_sourceCode:not(.btn_content_hide):after{
+content: "Show possible solution";
+}
+
+.btn_sourceCode.btn_content_hide:after{
+content: "Hide possible solution";
+}
+
+.btn_sourceCode{
+  margin-left: calc(100% - 170px);
+}
+
+
+/*shinycssloader*/
+.load1 .loader,
+.load1 .loader:before,
+.load1 .loader:after {
+  background: #ffffff;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.load1 .loader {
+  color: #ffffff;
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.load1 .loader:before,
+.load1 .loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.load1 .loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.load1 .loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+.shiny-spinner-output-container {
+  position: relative;
+}
+
+.load-container {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  /* to avoid showing a vertical scrollbar
+  http://stackoverflow.com/questions/38251204/horizontal-animation-causes-vertical-scrollbar-in-css */
+  overflow:hidden; 
+  width: 100%;
+}
+
+.shiny-spinner-hidden {
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -1;
+  visibility:hidden;
+}
+.load1 .loader, .load1 .loader:before, .load1 .loader:after {background: #0275D8} .load1 .loader {color: #0275D8}
+.load1 .loader {font-size: 8px}
+```
+
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+# devtools::install_github("gadenbuie/xaringanExtra")
+if(knitr::is_html_output()){
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\" style=\"font-size: 2em\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D; font-size: 2em\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+}
+```
+
+```{css, echo=FALSE}
+/*dont show copy button in R output chunk*/
+pre:not([class]) > .xaringanextra-clipboard-button{
+    display: none;
+}
+```
+
+# Input and output controls
+
+In this task, the following app is to be adapted. First, run the app in an R console and take a close look at it. Then work on the following tasks one after the other.
+
+```{r, echo=TRUE, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 1, max = 100, value = 10),
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  output$hist <- renderPlot({
+    x <- rnorm(input$n) # draw n random values
+    hist(x, main = "Histogram")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+a) Add the heading "Histogram of random values" to the app using `titlePanel()` inside the `fluidPage()`function.
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  #######################################################
+  titlePanel("Histogram of random values"),
+  # Alternatively, an HTML tag can be used. 
+  # Note: in this case, however, no title tag is set in the header 
+  # (i.e. the title is not displayed in the browser tab).  
+  # titlePanel() does this automatically.
+  # tags$h2("Histogram of random values"),
+  #######################################################
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 1, max = 100, value = 10),
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  output$hist <- renderPlot({
+    x <- rnorm(input$n) # draw n random values
+    hist(x, main = "Histogram")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+b) Adjust the app so that the slider `"n"` can only move between 50 
+and 1000 in increments of 50. See `?sliderInput` for help.
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  #######################################################
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 50, max = 1000, value = 50, step = 50),
+  #######################################################
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  output$hist <- renderPlot({
+    x <- rnorm(input$n) # draw n random values
+    hist(x, main = "Histogram")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+c) Add another input (`selectInput()` or `radioButtons()`) and let the user
+choose among drawing samples from three distributions: normal, uniform
+(`runif()`), or exponential (`rexp()`). 
+Use `switch()` to adjust the logic in the server function.  See  `?switch`  for help.
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 50, max = 1000, value = 50, step = 50),
+  #######################################################
+  #selectInput(inputId = "distribution", 
+  #            label = "Distribution", 
+  #            choices = c("normal", "uniform", "exponential")),
+  radioButtons(inputId = "distribution", 
+              label = "Distribution", 
+              choices = c("normal", "uniform", "exponential")),
+  #######################################################
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  output$hist <- renderPlot({
+    #######################################################
+    x <- switch(input$distribution,
+                normal = rnorm(input$n),
+                uniform = runif(input$n),
+                exponential = rexp(input$n)
+                ) 
+    # draw n random values from the chosen distribution
+    #######################################################
+    hist(x, main = "Histogram")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+d) Add a `checkboxInput()` to the UI. When the box is ticked, the distribution from which random values are drawn should be drawn into the histogram using `curve()`. 
+
+::: {.hint} 
+The y-axis of the histogram must represent the density (argument `freq = FALSE`). To draw the curve into the histogram, the argument `add = TRUE` must be set for `curve()`.
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 50, max = 1000, value = 50, step = 50),
+  radioButtons(inputId = "distribution", 
+              label = "Distribution", 
+              choices = c("normal", "uniform", "exponential")),
+  #######################################################
+  # Add  checkbox UI
+  checkboxInput("show_distribution", "Show distribution in histogram"),
+  #######################################################
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  output$hist <- renderPlot({
+    x <- switch(input$distribution,
+                normal = rnorm(input$n),
+                uniform = runif(input$n),
+                exponential = rexp(input$n)
+    ) 
+    
+    #######################################################
+    # freq = FALSE -> plot density on y-axis
+    hist(x, main = "Histogram", freq  = FALSE)
+    
+    #######################################################
+    # Add  server logic: if input$show_distribution is TRUE
+    # the selected distribution (input$distribution) is added to the hist()
+    if(input$show_distribution){
+      switch(input$distribution,
+        normal = curve(dnorm, from = -6, to = 6, 
+                       add = TRUE, col = "red", lty = 2),
+        uniform = curve(dunif, from = 0, to = 1, 
+                          add = TRUE, col = "red", lty = 2),
+        exponential = curve(dexp, from = 0, to = 10, 
+                              add = TRUE, col = "red", lty = 2))
+    }
+    #######################################################
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+e) Depending on how you solved the task before, an undesirable behaviour may have occurred: Each time the `checkboxInput()` is clicked, new values are drawn.   
+Try to find a solution so that this does not happen, i.e. when the box is clicked, the distribution is added to or removed from the histogram without drawing new random values.
+
+::: {.hint} 
+Move the part where the values are drawn into a reactive expression using `reactive({})`.
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  sliderInput(inputId = "n", 
+              label   = "Number of samples", 
+              min = 50, max = 1000, value = 50, step = 50),
+  radioButtons(inputId = "distribution", 
+              label = "Distribution", 
+              choices = c("normal", "uniform", "exponential")),
+  checkboxInput("show_distribution", "Show distribution in histogram"),
+  plotOutput(outputId = "hist")
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  
+  #######################################################
+  # Move drawing proces into reactive expression
+  get_data <- reactive({
+    switch(input$distribution,
+           normal = rnorm(input$n),
+           uniform = runif(input$n),
+           exponential = rexp(input$n)
+    ) 
+    
+  })
+  #######################################################
+  
+  output$hist <- renderPlot({
+    
+    #######################################################
+    # refer back to reactive expression get_data()
+    # add xlab (not necessary, but nicer)
+    hist(get_data(), main = "Histogram", freq  = FALSE, xlab = "x")
+    #######################################################
+    
+    if(input$show_distribution){
+      switch(input$distribution,
+             normal = curve(dnorm, from = -6, to = 6, 
+                            add = TRUE, col = "red", lty = 2),
+             uniform = curve(dunif, from = 0, to = 1, 
+                             add = TRUE, col = "red", lty = 2),
+             exponential = curve(dexp, from = 0, to = 10, 
+                                 add = TRUE, col = "red", lty = 2))
+    }
+    
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+f) Add a layout: Try both, (1) an automatic layout using `sidebarLayout()`,
+`sidebarPanel()`, and `mainPanel()`; (2) a custom layout using `fluidRow()`
+and `column()`.
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  #######################################################
+  # Add  sidebarLayout
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(inputId = "n", 
+                  label   = "Number of samples", 
+                  min = 50, max = 1000, value = 50, step = 50),
+      radioButtons(inputId = "distribution", 
+                   label = "Distribution", 
+                   choices = c("normal", "uniform", "exponential")),
+      checkboxInput("show_distribution", "Show distribution in histogram")
+    ),
+    mainPanel(
+      plotOutput(outputId = "hist")
+    )
+  )
+  #######################################################
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  
+  get_data <- reactive({
+    switch(input$distribution,
+           normal = rnorm(input$n),
+           uniform = runif(input$n),
+           exponential = rexp(input$n)
+    ) 
+    
+  })
+
+  output$hist <- renderPlot({
+
+    hist(get_data(), main = "Histogram", freq  = FALSE, xlab = "x")
+
+    if(input$show_distribution){
+      switch(input$distribution,
+             normal = curve(dnorm, from = -6, to = 6, 
+                            add = TRUE, col = "red", lty = 2),
+             uniform = curve(dunif, from = 0, to = 1, 
+                             add = TRUE, col = "red", lty = 2),
+             exponential = curve(dexp, from = 0, to = 10, 
+                                 add = TRUE, col = "red", lty = 2))
+    }
+    
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  #######################################################
+  # Add  custom layout using fluidRow(), column() and
+  # wellPanel() to separate sections
+  wellPanel(
+  fluidRow(
+    column(6,
+      sliderInput(inputId = "n", 
+                  label   = "Number of samples", 
+                  min = 50, max = 1000, value = 50, step = 50)
+      ),
+    column(2,
+      radioButtons(inputId = "distribution", 
+                   label = "Distribution", 
+                   choices = c("normal", "uniform", "exponential"))
+      ),
+    column(3,
+      checkboxInput("show_distribution", "Show distribution in histogram")
+    ))),
+    fluidRow(
+      plotOutput(outputId = "hist")
+    )
+  #######################################################
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  
+  get_data <- reactive({
+    switch(input$distribution,
+           normal = rnorm(input$n),
+           uniform = runif(input$n),
+           exponential = rexp(input$n)
+    ) 
+    
+  })
+
+  output$hist <- renderPlot({
+
+    hist(get_data(), main = "Histogram", freq  = FALSE, xlab = "x")
+
+    if(input$show_distribution){
+      switch(input$distribution,
+             normal = curve(dnorm, from = -6, to = 6, 
+                            add = TRUE, col = "red", lty = 2),
+             uniform = curve(dunif, from = 0, to = 1, 
+                             add = TRUE, col = "red", lty = 2),
+             exponential = curve(dexp, from = 0, to = 10, 
+                                 add = TRUE, col = "red", lty = 2))
+    }
+    
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+g) Draw the reactive graph by hand and compare it to the one created using the `reactlog` package (execute `options(shiny.reactlog = TRUE)` before you start the shiny app to enable reactlog and press Ctrl + F3 or Command + F3 to display the generated reactive graph).
+
+   _Note:_ There are some additional "internal" nodes (`clientData$...`) in the graph created by reactlog. They are responsible for rendering the plot correctly. You can simply ignore them if you compare the graphs.
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+
+options(shiny.reactlog = TRUE) # enable reactlog
+
+# User interface with slider (input) and plot (output)
+ui <- fluidPage(
+  titlePanel("Histogram of random values"),
+  #######################################################
+  # Add  sidebarLayout
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(inputId = "n", 
+                  label   = "Number of samples", 
+                  min = 50, max = 1000, value = 50, step = 50),
+      radioButtons(inputId = "distribution", 
+                   label = "Distribution", 
+                   choices = c("normal", "uniform", "exponential")),
+      checkboxInput("show_distribution", "Show distribution in histogram")
+    ),
+    mainPanel(
+      plotOutput(outputId = "hist")
+    )
+  )
+  #######################################################
+) 
+
+# Server function connecting input and output
+server <- function(input, output){
+  
+  get_data <- reactive({
+    switch(input$distribution,
+           normal = rnorm(input$n),
+           uniform = runif(input$n),
+           exponential = rexp(input$n)
+    ) 
+    
+  })
+
+  output$hist <- renderPlot({
+
+    hist(get_data(), main = "Histogram", freq  = FALSE, xlab = "x")
+
+    if(input$show_distribution){
+      switch(input$distribution,
+             normal = curve(dnorm, from = -6, to = 6, 
+                            add = TRUE, col = "red", lty = 2),
+             uniform = curve(dunif, from = 0, to = 1, 
+                             add = TRUE, col = "red", lty = 2),
+             exponential = curve(dexp, from = 0, to = 10, 
+                                 add = TRUE, col = "red", lty = 2))
+    }
+    
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+# Press Ctrl + 3 (or Command + F3) to open the reactlog graph
+
+```
+
+:::
+
+<hr style="border:2px solid gray">
+
+# Analysis of the `PlantGrowth` dataset
+
+Create a Shiny app that displays a boxplot for the `PlantGrowth` data in R.
+
+a) Let the user select the groups to display.  
+
+   Depending on the selected groups, the histogram could look like this:
+   (You can adapt the code below for your app)
+    ```{r, echo=include_solutions, eval=TRUE, fig.dim=c(10, 4)}
+par(mfrow = c(1, 3))
+## if all groups are selected:
+boxplot(weight ~ group, PlantGrowth)
+
+## if only group ctrl and trt2 are selected
+data <-  droplevels(PlantGrowth[PlantGrowth$group %in% c("ctrl", "trt2"), ])
+boxplot(weight ~ group, data, axes = FALSE)
+axis(2)
+axis(1, at = 1:nlevels(data$group), labels = levels(data$group))
+box()
+
+## if only group trt1 is selected
+data <-  droplevels(PlantGrowth[PlantGrowth$group %in% c("trt1"), ])
+boxplot(weight ~ group, data, axes = FALSE)
+axis(2)
+axis(1, at = 1:nlevels(data$group), labels = levels(data$group))
+box()
+```
+
+::: {.hint} 
+Use `checkboxGroupInput()` or `selectInput()` to select the groups.
+:::
+
+-----
+ 
+b) Use `validate(need(...))` to display a message if no group is selected. Otherwise, an error message could appear. 
+
+::: {.hint} 
+Check whether the input variable in which the selected groups are stored contains elements (e.g. using `length(input$...) > 0`)
+:::
+
+----- 
+   
+c) Add an output that shows the results of a one-sample t test, a two-sample t test
+(`t.test()`), or a one-way ANOVA (`oneway.test()`), depending on whether
+one, two, or three groups are selected.
+
+    ```{r, echo=include_solutions, eval=FALSE}
+# if only group ctrl and trt2 are selected
+data <-  droplevels(PlantGrowth[PlantGrowth$group %in% c("ctrl", "trt2"), ])
+t.test(weight ~ group, data) # two-sample t test
+
+# if only group trt1 is selected
+data <-  droplevels(PlantGrowth[PlantGrowth$group %in% c("trt1"), ])
+t.test(data$weight, mu = 0) # one-sample t test
+
+# all three groups
+data <-  droplevels(PlantGrowth[PlantGrowth$group %in% c("ctrl", "trt1", "trt2"), ])
+oneway.test(weight ~ group, data) # one-way ANOVA
+
+```
+
+-----
+
+d) Add an input that lets the user select whether to treat the variances in the
+groups as being equal. Accordingly, display the correct test. 
+
+::: {.hint} 
+Use the `var.equal` argument.
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("PlantGrowth"),
+  sidebarLayout(
+    sidebarPanel(
+      checkboxGroupInput(inputId =  "groups",
+                         label =  "Select group(s)",
+                         choices = c("control" =  "ctrl",
+                                     "treatment 1" =  "trt1",
+                                     "treatment 2" = "trt2")
+      ),
+      checkboxInput("checkb_vareq", "Treat variances as being equal?")
+    ),
+    mainPanel(
+      plotOutput("box_plot"),
+      verbatimTextOutput("result_test")
+    )
+  )
+)
+
+server <- function(input, output){
+
+data <- reactive({
+  validate(need(length(input$groups) > 0, "Please select at least one group."))
+  droplevels(PlantGrowth[PlantGrowth$group %in% input$groups, ])
+})
+
+output$box_plot <- renderPlot({
+  boxplot(weight ~ group, data(), axes = FALSE)
+  axis(2)
+  axis(1, at = 1:nlevels(data()$group), labels = levels(data()$group))
+  box()
+})
+
+output$result_test <- renderPrint({
+  req(input$groups)
+  
+  if(length(input$groups) == 1){
+    t.test(data()$weight, mu = 0)
+    
+  }else if(length(input$groups) == 2){
+    t.test(weight ~ group, data(), var.equal = input$checkb_vareq)
+    
+  }else if(length(input$groups) == 3){
+    oneway.test(weight ~ group, data(), var.equal = input$checkb_vareq)
+  }
+})
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+e) Bonus exercise: Hide the input that lets the user select whether to treat the variances in the groups as being equal if only one group (or no group) is selected.
+
+::: {.hint}
+Use `conditionalPanel()` (reminder: the condition has to be a JavaScript expression, see `?conditionalPanel` for some examples. In order to access the reactive input value in JS and calculate its length use `input['inputId'].length`) or `uiOutput()` paired with `renderUI()`.
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("PlantGrowth"),
+  sidebarLayout(
+    sidebarPanel(
+      checkboxGroupInput(inputId =  "groups",
+                         label =  "Select group(s)",
+                         choices = c("control" =  "ctrl",
+                                     "treatment 1" =  "trt1",
+                                     "treatment 2" = "trt2")
+      ),
+      conditionalPanel("input['groups'].length > 1",      
+        checkboxInput("checkb_vareq", "Treat variances as being equal?")
+      )
+    ),
+    mainPanel(
+      plotOutput("box_plot"),
+      verbatimTextOutput("result_test")
+    )
+  )
+)
+
+server <- function(input, output){
+
+data <- reactive({
+  validate(need(length(input$groups) > 0, "Please select at least one group."))
+  droplevels(PlantGrowth[PlantGrowth$group %in% input$groups, ])
+})
+
+output$box_plot <- renderPlot({
+  boxplot(weight ~ group, data(), axes = FALSE)
+  axis(2)
+  axis(1, at = 1:nlevels(data()$group), labels = levels(data()$group))
+  box()
+})
+
+output$result_test <- renderPrint({
+  req(input$groups)
+  
+  if(length(input$groups) == 1){
+    t.test(data()$weight, mu = 0)
+    
+  }else if(length(input$groups) == 2){
+    t.test(weight ~ group, data(), var.equal = input$checkb_vareq)
+    
+  }else if(length(input$groups) == 3){
+    oneway.test(weight ~ group, data(), var.equal = input$checkb_vareq)
+  }
+})
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+
+
+<hr style="border:2px solid gray">
+
+# Bootstrap from `cars` dataset
+
+a) Create a Shiny app with the user interface consisting of an `actionButton()` input
+and two outputs: `plotOutput()` and `verbatimTextOutput()`. On each button
+click
+
+   - a new 50-observations bootstrap sample is drawn with replacement from the `cars` data,
+   - the scatter plot is displayed,
+   - descriptive statistics (`summary()`) are shown.
+
+::: {.hint}
+In the server function, use `getsamples <- eventReactive({...})` to be able to
+access the same data set both within `renderPlot()` and `renderPrint()`
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Bootstrap sampling"),
+  sidebarLayout(
+    sidebarPanel(
+        actionButton("new_sample", "New sample"),
+        tags$hr(),
+        verbatimTextOutput("stats")
+    ),
+    mainPanel(
+      plotOutput("scatterplot")
+
+    )
+  )
+)
+
+server <- function(input, output){
+
+getsamples <- eventReactive(input$new_sample, {
+  cars[sample(1:50, 50, replace = TRUE), ]
+})
+
+output$scatterplot <- renderPlot({
+   plot(dist ~ speed, getsamples())
+})
+
+output$stats <- renderPrint({
+  summary(getsamples())
+})
+
+}
+shinyApp(ui = ui, server = server)
+```
+:::
+
+-----
+
+b) Expand the previous Shiny app.
+
+   - Add a check box to allow the user to show a regression line.
+   - Add a second button 'Reset' that restores the sample to the original cars data.
+
+::: {.hint}   
+To get two buttons to work in the server function, combine
+`reactiveValues()` and `observe()`/`observeEvent()`. More here: https://shiny.rstudio.com/articles/action-buttons.html.
+:::
+
+<button type="button" onclick = "this.nextElementSibling.classList.toggle('show_sourceCode');this.classList.toggle('btn_content_hide')" class="btn btn-light btn_sourceCode"></button>
+
+::: {.custom-sourceCode-div}
+```{r, echo=include_solutions, eval=FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Bootstrap sampling"),
+  sidebarLayout(
+    sidebarPanel(
+      fluidRow(
+        column(6, 
+          actionButton("new_sample", "New sample")
+        ),
+        column(6, 
+          actionButton("reset", "Reset")
+        )
+        ),
+      checkboxInput("show_regr", "Show regression line"),
+      tags$hr(),
+        verbatimTextOutput("stats")
+    ),
+    mainPanel(
+      plotOutput("scatterplot")
+
+    )
+  )
+)
+
+server <- function(input, output){
+
+getsamples <- reactiveValues(data = cars)
+
+observeEvent(input$new_sample,{
+  getsamples$data <- cars[sample(1:50, 50, replace = TRUE), ]
+})
+  
+observeEvent(input$reset,{
+  getsamples$data <- cars
+})
+
+output$scatterplot <- renderPlot({
+   plot(dist ~ speed, getsamples$data, xlim =  c(0, 26), ylim = c(0, 125))
+  if(input$show_regr){
+    abline(lm(dist ~ speed, getsamples$data))
+  }
+})
+
+output$stats <- renderPrint({
+  summary(getsamples$data)
+})
+
+}
+shinyApp(ui = ui, server = server)
+```    
+:::
+
+-----
+
+c) Take a look at the reactive graph created by the reactlog package. Find the nodes for `observe()` or `observeEvent()` and `reactiveValues()` and play a little bit with this graph using the 'Next Step / Previous Step' button at the top. Try to understand what happens if you click 'Reset' in the app and how this process is represented in the graph.
+
+<hr style="border:2px solid gray">
+
+
+# Linear regression
+
+Develop a Shiny App with the following content:
+
+- Simulate data from the following model 
+  $$ y_i = \beta_0 + \beta_1 \cdot x_i + e_i$$ 
+  with $e_i \sim N(\mu = 0, \sigma = \sigma)$,  $i = 1, ..., n$ and $x_i \sim \mathcal{U}(0, 100)$.
+  The parameters $\beta_0$ and $\beta_1$ as well as $\sigma$ and the sample size $n$ should be freely adjustable by the user (within a certain range).  
+- Display the simulated data in a scatterplot.
+- Add the true regression line to the plot if a checkbox has been ticked.
+- Estimate a linear model based on the simulated data and plot the estimated regression line in the scatterplot as well. (but only if another checkbox has been ticked)
+- Give the inputs meaningful labels so that the user can understand what he can change with the inputs.
+- Add descriptions that help the user understand the app. In this context, you should also include the mathematical expression of the model in the app and briefly explain the parameters.
+
+- If you are still looking for a challenge, then let the user decide whether a quadratic or even cubic term should be included in the model. E.g.:
+  $$ y_i = \beta_0 + \beta_1 \cdot x_i + \beta_2  \cdot x_i^2 + e_i$$ 
+
+
+Feel free to show me the finished app and ask me for feedback :)
+
+<hr style="border:2px solid gray">
+
